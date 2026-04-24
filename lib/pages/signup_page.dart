@@ -1,29 +1,30 @@
 import 'package:catalog_appzs/utils/routes.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  String name = "";
+class _SignUpPageState extends State<SignUpPage> {
   bool changeButton = false;
-
   final _formKey = GlobalKey<FormState>();
 
-  moveToHome(BuildContext context) async {
+  moveToLogin(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         changeButton = true;
       });
       await Future.delayed(const Duration(seconds: 1));
-      await Navigator.pushNamed(context, MyRoutes.homeRoute);
+      await Navigator.pushNamed(context, MyRoutes.loginRoute);
       setState(() {
         changeButton = false;
       });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Account Created Successfully!")),
+      );
     }
   }
 
@@ -36,34 +37,21 @@ class _LoginPageState extends State<LoginPage> {
           key: _formKey,
           child: Column(
             children: [
+              const SizedBox(height: 50.0),
               Image.asset(
                 "assets/images/login_image2.png",
                 fit: BoxFit.cover,
-                height: 250,
+                height: 200,
               ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return FadeTransition(
-                    opacity: animation,
-                    child: ScaleTransition(scale: animation, child: child),
-                  );
-                },
-                child: Text(
-                  "Welcome $name",
-                  key: ValueKey<String>(name),
-                  style: const TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const SizedBox(height: 20.0),
+              const Text(
+                "Create New Account",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(
-                height: 20.0,
-              ),
+              const SizedBox(height: 20.0),
               Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: 16.0, horizontal: 32.0),
@@ -71,18 +59,40 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     TextFormField(
                       decoration: const InputDecoration(
-                        hintText: "Enter username",
-                        labelText: "Username",
+                        hintText: "Enter full name",
+                        labelText: "Full Name",
                       ),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return "Username cannot be empty";
+                          return "Name cannot be empty";
                         }
                         return null;
                       },
-                      onChanged: (value) {
-                        name = value;
-                        setState(() {});
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Enter email",
+                        labelText: "Email",
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Email cannot be empty";
+                        } else if (!value.contains("@")) {
+                          return "Invalid email format";
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      decoration: const InputDecoration(
+                        hintText: "Enter phone number",
+                        labelText: "Phone",
+                      ),
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Phone cannot be empty";
+                        }
+                        return null;
                       },
                     ),
                     TextFormField(
@@ -100,19 +110,17 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(
-                      height: 40.0,
-                    ),
+                    const SizedBox(height: 40.0),
                     Material(
                       color: Colors.deepPurple,
                       borderRadius:
                           BorderRadius.circular(changeButton ? 50 : 8),
                       child: InkWell(
-                        onTap: () => moveToHome(context),
+                        onTap: () => moveToLogin(context),
                         child: AnimatedContainer(
                           duration: const Duration(seconds: 1),
-                          width: changeButton ? 30 : 110,
-                          height: 30,
+                          width: changeButton ? 50 : 150,
+                          height: 50,
                           alignment: Alignment.center,
                           child: changeButton
                               ? const Icon(
@@ -120,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.white,
                                 )
                               : const Text(
-                                  "Login",
+                                  "Create Account",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -133,13 +141,13 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Don't have an account?"),
+                        const Text("Already have an account?"),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, MyRoutes.signUpRoute);
+                            Navigator.pushNamed(context, MyRoutes.loginRoute);
                           },
                           child: const Text(
-                            "Create New Account",
+                            "Login",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),

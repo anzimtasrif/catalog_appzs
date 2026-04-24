@@ -3,6 +3,7 @@ import 'package:catalog_appzs/pages/email_page.dart';
 import 'package:catalog_appzs/pages/home_page.dart';
 import 'package:catalog_appzs/pages/login_page.dart';
 import 'package:catalog_appzs/pages/profile_page.dart';
+import 'package:catalog_appzs/pages/signup_page.dart';
 import 'package:catalog_appzs/utils/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         "/": (context) => const LoginPage(),
         MyRoutes.homeRoute: (context) => HomePage(),
         MyRoutes.loginRoute: (context) => const LoginPage(),
+        MyRoutes.signUpRoute: (context) => const SignUpPage(),
         MyRoutes.cartRoute: (context) => CartPage(),
         MyRoutes.profileRoute: (context) => ProfilePage(),
         MyRoutes.emailRoute: (context) => EmailPage(),
